@@ -8,7 +8,7 @@ class ScheduleContract {
 
     interface View : BaseContract.View {
         fun showProgress(show: Boolean)
-        fun loadScheduleSuccess(message: List<Schedules>)
+        fun loadScheduleSuccess(scheduleList: List<Schedules>)
         fun loadScheduleError(localizedMessage: String?)
     }
 

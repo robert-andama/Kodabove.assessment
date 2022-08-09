@@ -13,8 +13,6 @@ import com.kodabove.assessment.ui.models.Events
 class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClickListener {
 
     private var _binding: FragmentEventsBinding? = null
-
-    //    private lateinit var presenter: EventsContract.Presenter
     private val presenter by lazy { EventsPresenter() }
 
     private val binding get() = _binding!!
