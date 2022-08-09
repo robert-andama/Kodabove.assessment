@@ -7,7 +7,7 @@ class EventsContract {
 
     interface View : BaseContract.View {
         fun showProgress(show: Boolean)
-        fun loadEventsSuccess(message: List<Events>)
+        fun loadEventsSuccess(eventsList: List<Events>)
         fun loadEventsError(localizedMessage: String?)
     }
 
