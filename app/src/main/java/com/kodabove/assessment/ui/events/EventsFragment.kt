@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kodabove.assessment.R
 import com.kodabove.assessment.databinding.FragmentEventsBinding
 import com.kodabove.assessment.ui.events.adapters.EventsAdapter
 import com.kodabove.assessment.ui.models.Events
+import androidx.navigation.fragment.navArgs
 
 class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClickListener {
 
@@ -70,6 +76,11 @@ class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClic
     }
 
     override fun itemDetail(events: Events) {
-        // TODO:: add item details here
+        val bundle = bundleOf(EVENT_VIDEO_URL to events.videoUrl)
+        findNavController().navigate(R.id.navigation_video, bundle)
+    }
+
+    companion object{
+        const val EVENT_VIDEO_URL = "my_video_url"
     }
 }

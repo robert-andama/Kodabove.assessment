@@ -1,5 +1,7 @@
 package com.kodabove.assessment.ui.api
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kodabove.assessment.ui.models.Events
 import com.kodabove.assessment.ui.models.Schedules
 import com.kodabove.assessment.ui.utils.Constants
@@ -17,7 +19,7 @@ interface ApiServiceInterface {
     fun getSchedulesList(): Observable<List<Schedules>>
 
     companion object Factory {
-
+        var lenient: Gson = GsonBuilder().setLenient().create()
         fun create(): ApiServiceInterface {
             val retrofit = retrofit2.Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
