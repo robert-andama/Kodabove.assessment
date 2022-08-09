@@ -14,7 +14,7 @@
         android:theme="@style/Theme.AndroidAssessment"
         tools:targetApi="31">
         <activity
-            android:name="com.kodabove.assessment.MainActivity"
+            android:name="com.kodabove.assessment.ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
