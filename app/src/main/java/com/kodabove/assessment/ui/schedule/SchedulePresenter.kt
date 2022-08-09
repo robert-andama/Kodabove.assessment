@@ -19,7 +19,7 @@ class SchedulePresenter : ScheduleContract.Presenter {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ list: List<Schedules> ->
                 view.showProgress(false)
-                view.loadScheduleSuccess(list.take(2))
+                view.loadScheduleSuccess(list.take(2).sortedBy { it.date })
             }, { error ->
                 view.showProgress(false)
                 view.loadScheduleError(error.localizedMessage)

@@ -16,9 +16,9 @@ class EventsPresenter : EventsContract.Presenter {
 
         val subscribe = api.getEventsList().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ list: List<Events>? ->
+            .subscribe({ list: List<Events> ->
                 view.showProgress(false)
-                view.loadEventsSuccess(list!!.take(15))
+                view.loadEventsSuccess(list.take(15).sortedBy { it.date })
             }, { error ->
                 view.showProgress(false)
                 view.loadEventsError(error.localizedMessage)
