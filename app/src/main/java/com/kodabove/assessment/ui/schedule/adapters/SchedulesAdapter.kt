@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.kodabove.assessment.R
 import com.kodabove.assessment.ui.models.Schedules
 import com.kodabove.assessment.ui.schedule.adapters.SchedulesAdapter.SchedulesViewHolder
+import com.kodabove.assessment.ui.utils.RelativeWeekday
 
 class SchedulesAdapter(
     private val context: Context,
@@ -51,7 +52,8 @@ class SchedulesAdapter(
         Glide.with(context).load(scheduleItem.imageUrl).into(holder.scheduleImage)
         holder.scheduleTitle.text = scheduleItem.title
         holder.scheduleSubtitle.text = scheduleItem.subtitle
-        holder.scheduleDate.text = scheduleItem.date
+        val format = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        holder.scheduleDate.text  = RelativeWeekday(context, scheduleItem.date, format).toString()
 
         holder.layout.setOnClickListener {
             listener.itemDetail(scheduleItem)

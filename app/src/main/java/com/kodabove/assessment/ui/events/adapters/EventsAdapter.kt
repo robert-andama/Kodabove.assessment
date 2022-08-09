@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.kodabove.assessment.R
 import com.kodabove.assessment.ui.events.adapters.EventsAdapter.EventsViewHolder
 import com.kodabove.assessment.ui.models.Events
+import com.kodabove.assessment.ui.utils.RelativeWeekday
+
 
 class EventsAdapter(
     private val context: Context,
@@ -51,7 +53,8 @@ class EventsAdapter(
         Glide.with(context).load(eventItem.imageUrl).into(holder.eventImage)
         holder.eventTitle.text = eventItem.title
         holder.eventSubtitle.text = eventItem.subtitle
-        holder.eventDate.text = eventItem.date
+        val format = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        holder.eventDate.text = RelativeWeekday(context, eventItem.date, format).toString()
 
         holder.layout.setOnClickListener {
             listener.itemDetail(eventItem)
