@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.2630208333333333" />
+        <entry key="app/src/main/res/layout/fragment_event_video.xml" value="0.25833333333333336" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_schedule.xml" value="0.13563385009765627" />
         <entry key="app/src/main/res/layout/item_events_layout.xml" value="0.25" />

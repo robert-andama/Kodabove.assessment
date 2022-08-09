@@ -16,4 +16,10 @@
         android:name="com.kodabove.assessment.ui.schedule.ScheduleFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/navigation_video"
+        android:name="com.kodabove.assessment.ui.video.EventVideoFragment"
+        android:label="@string/title_video"
+        tools:layout="@layout/fragment_event_video" />
 </navigation>
