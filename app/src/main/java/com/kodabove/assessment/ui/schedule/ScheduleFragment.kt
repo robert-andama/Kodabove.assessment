@@ -7,14 +7,28 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kodabove.assessment.databinding.FragmentScheduleBinding
+import com.kodabove.assessment.ui.di.component.DaggerFragmentComponent
+import com.kodabove.assessment.ui.di.module.FragmentModule
 import com.kodabove.assessment.ui.models.Schedules
 import com.kodabove.assessment.ui.schedule.adapters.SchedulesAdapter
+import javax.inject.Inject
 
 class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnItemClickListener {
 
     private var _binding: FragmentScheduleBinding? = null
-    private val presenter by lazy { SchedulePresenter() }
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var presenter: ScheduleContract.Presenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val eventComponent = DaggerFragmentComponent.builder()
+            .fragmentModule(FragmentModule())
+            .build()
+
+        eventComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +66,6 @@ class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnI
     }
 
     override fun loadScheduleSuccess(scheduleList: List<Schedules>) {
-        println("eventsList :: $scheduleList")
         val adapter = SchedulesAdapter(requireContext(), scheduleList.toMutableList(), this)
         binding.recyclerView.layoutManager = LinearLayoutManager(activity)
         binding.recyclerView.adapter = adapter
@@ -61,7 +74,6 @@ class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnI
     }
 
     override fun loadScheduleError(localizedMessage: String?) {
-        println("localizedMessage :: $localizedMessage")
         // TODO:: handle error states
         // i.e network, crash etd
     }

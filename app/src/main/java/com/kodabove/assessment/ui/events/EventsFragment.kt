@@ -4,24 +4,34 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kodabove.assessment.R
 import com.kodabove.assessment.databinding.FragmentEventsBinding
 import com.kodabove.assessment.ui.events.adapters.EventsAdapter
 import com.kodabove.assessment.ui.models.Events
-import androidx.navigation.fragment.navArgs
+import com.kodabove.assessment.ui.di.component.DaggerFragmentComponent
+import com.kodabove.assessment.ui.di.module.FragmentModule
+import javax.inject.Inject
 
 class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClickListener {
 
     private var _binding: FragmentEventsBinding? = null
-    private val presenter by lazy { EventsPresenter() }
-
     private val binding get() = _binding!!
+
+    @Inject
+    lateinit var presenter: EventsContract.Presenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val eventComponent = DaggerFragmentComponent.builder()
+            .fragmentModule(FragmentModule())
+            .build()
+
+        eventComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
