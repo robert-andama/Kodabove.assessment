@@ -12,12 +12,16 @@ import com.kodabove.assessment.ui.di.component.DaggerFragmentComponent
 import com.kodabove.assessment.ui.di.module.FragmentModule
 import com.kodabove.assessment.ui.models.Schedules
 import com.kodabove.assessment.ui.schedule.adapters.SchedulesAdapter
+import com.kodabove.assessment.ui.utils.launchPeriodicAsync
+import kotlinx.coroutines.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnItemClickListener {
 
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
+    private var fetchSchedulesTimer: Job? = null
 
     @Inject
     lateinit var presenter: ScheduleContract.Presenter
@@ -49,13 +53,17 @@ class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnI
     }
 
     private fun initView() {
-        presenter.loadSchedules()
+        fetchSchedulesTimer = CoroutineScope(Dispatchers.IO)
+            .launchPeriodicAsync(TimeUnit.SECONDS.toMillis(30)) {
+                presenter.loadSchedules()
+            }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         presenter.unsubscribe()
+        fetchSchedulesTimer?.cancel()
     }
 
     override fun showProgress(show: Boolean) {

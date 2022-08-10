@@ -15,7 +15,7 @@ interface ApiServiceInterface {
     @GET("getEvents")
     fun getEventsList(): Observable<List<Events>>
 
-    @GET("getSchedules")
+    @GET("getSchedule")
     fun getSchedulesList(): Observable<List<Schedules>>
 
     companion object Factory {
