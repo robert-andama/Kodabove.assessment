@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.kodabove.assessment.R
 import com.kodabove.assessment.databinding.FragmentScheduleBinding
 import com.kodabove.assessment.ui.di.component.DaggerFragmentComponent
 import com.kodabove.assessment.ui.di.module.FragmentModule
@@ -23,11 +24,11 @@ class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val eventComponent = DaggerFragmentComponent.builder()
+        val scheduleComponent = DaggerFragmentComponent.builder()
             .fragmentModule(FragmentModule())
             .build()
 
-        eventComponent.inject(this)
+        scheduleComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -58,22 +59,39 @@ class ScheduleFragment : Fragment(), ScheduleContract.View, SchedulesAdapter.OnI
     }
 
     override fun showProgress(show: Boolean) {
-        if (show) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+        if (show) binding.progressBar.visibility = View.VISIBLE
+        else binding.progressBar.visibility = View.GONE
     }
 
     override fun loadScheduleSuccess(scheduleList: List<Schedules>) {
-        val adapter = SchedulesAdapter(requireContext(), scheduleList.toMutableList(), this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        binding.recyclerView.adapter = adapter
+        when {
+            scheduleList.isEmpty() -> {
+                binding.recyclerView.visibility = View.GONE
+                binding.emptySchedule.visibility = View.VISIBLE
+                binding.emptySchedule.text = getString(R.string.empty_event_notice)
+                binding.emptySchedule
+                    .setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_baseline_event_busy_24,
+                        0,
+                        0,
+                        0
+                    )
+            }
+            else -> {
+                val adapter = SchedulesAdapter(requireContext(), scheduleList.toMutableList(), this)
+                binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+                binding.recyclerView.adapter = adapter
 
-        // TODO:: add swipe to delete logic here
+                // TODO:: add swipe to delete logic here
+            }
+        }
     }
 
     override fun loadScheduleError(localizedMessage: String?) {
+        binding.recyclerView.visibility = View.GONE
+        binding.emptySchedule.visibility = View.VISIBLE
+        binding.emptySchedule.text = localizedMessage
+
         // TODO:: handle error states
         // i.e network, crash etd
     }

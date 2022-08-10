@@ -10,10 +10,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kodabove.assessment.R
 import com.kodabove.assessment.databinding.FragmentEventsBinding
-import com.kodabove.assessment.ui.events.adapters.EventsAdapter
-import com.kodabove.assessment.ui.models.Events
 import com.kodabove.assessment.ui.di.component.DaggerFragmentComponent
 import com.kodabove.assessment.ui.di.module.FragmentModule
+import com.kodabove.assessment.ui.events.adapters.EventsAdapter
+import com.kodabove.assessment.ui.models.Events
 import javax.inject.Inject
 
 class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClickListener {
@@ -61,24 +61,37 @@ class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClic
     }
 
     override fun showProgress(show: Boolean) {
-        if (show) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
+        when {
+            show -> binding.progressBar.visibility = View.VISIBLE
+            else -> binding.progressBar.visibility = View.GONE
         }
     }
 
     override fun loadEventsSuccess(eventsList: List<Events>) {
-        println("eventsList :: $eventsList")
-        val adapter = EventsAdapter(requireContext(), eventsList.toMutableList(), this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(activity)
-        binding.recyclerView.adapter = adapter
+        if (eventsList.isEmpty()) {
+            binding.recyclerView.visibility = View.GONE
+            binding.emptyEvent.visibility = View.VISIBLE
+            binding.emptyEvent.text = getString(R.string.empty_event_notice)
+            binding.emptyEvent
+                .setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    R.drawable.ic_baseline_event_busy_24,
+                    0,
+                    0,
+                    0
+                )
+        } else {
+            val adapter = EventsAdapter(requireContext(), eventsList.toMutableList(), this)
+            binding.recyclerView.layoutManager = LinearLayoutManager(activity)
+            binding.recyclerView.adapter = adapter
 
-        // TODO:: add swipe to delete logic here
+            // TODO:: add swipe to delete logic here
+        }
     }
 
     override fun loadEventsError(localizedMessage: String?) {
-        println("localizedMessage :: $localizedMessage")
+        binding.recyclerView.visibility = View.GONE
+        binding.emptyEvent.visibility = View.VISIBLE
+        binding.emptyEvent.text = localizedMessage
     }
 
     override fun itemRemoveClick(events: Events) {
@@ -90,7 +103,7 @@ class EventsFragment : Fragment(), EventsContract.View, EventsAdapter.OnItemClic
         findNavController().navigate(R.id.navigation_video, bundle)
     }
 
-    companion object{
+    companion object {
         const val EVENT_VIDEO_URL = "my_video_url"
     }
 }

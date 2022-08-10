@@ -3,4 +3,6 @@
     <string name="title_schedule">Schedule</string>
     <string name="title_events">Events</string>
     <string name="title_video">Video</string>
+    <string name="empty_event_notice">You don\'t have any event today</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

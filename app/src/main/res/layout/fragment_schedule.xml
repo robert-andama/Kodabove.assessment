@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize"
-    tools:context=".ui.schedule.ScheduleFragment">
+    android:background="#ececec"
+    tools:context=".ui.schedule.ScheduleFragment"
+    tools:visibility="gone">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -22,6 +24,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_schedule_layout" />
+
+    <TextView
+        android:id="@+id/emptySchedule"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/something_went_wrong"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#888"
+        android:textStyle="bold"
+        app:drawableTopCompat="@drawable/ic_baseline_error_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_events_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
